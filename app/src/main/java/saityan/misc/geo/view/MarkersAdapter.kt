@@ -4,15 +4,15 @@ import android.view.*
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.gms.maps.model.Marker
 import saityan.misc.geo.R
 import saityan.misc.geo.databinding.ItemMarkerBinding
+import saityan.misc.geo.model.CustomMarker
 
 class MarkersAdapter(
-    private val menuInflater: MenuInflater
-) : ListAdapter<Marker, MarkersAdapter.MarkersViewHolder>(MarkersCallback) {
+    private val menuInflater: MenuInflater,
+) : ListAdapter<CustomMarker, MarkersAdapter.MarkersViewHolder>(MarkersCallback) {
 
-    private var itemPosition = -1
+    var itemPosition = -1
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MarkersViewHolder =
         MarkersViewHolder(
@@ -27,8 +27,11 @@ class MarkersAdapter(
 
     fun removeItem() {
         val currentListMutable = currentList.toMutableList()
-        currentListMutable.removeAt(itemPosition)
-        submitList(currentListMutable)
+        with(currentListMutable) {
+            this[itemPosition].marker.remove()
+            this.removeAt(itemPosition)
+            submitList(this)
+        }
     }
 
     inner class MarkersViewHolder(private val binding: ItemMarkerBinding) :
@@ -39,7 +42,8 @@ class MarkersAdapter(
         }
 
         fun bind(position: Int) = with(binding) {
-            markerName.text = currentList[position].title
+            markerName.text = currentList[position].marker.title
+            markerDescription.text = currentList[position].description
             itemView.setOnLongClickListener {
                 itemPosition = adapterPosition
                 false
@@ -55,8 +59,8 @@ class MarkersAdapter(
         }
     }
 
-    companion object MarkersCallback : DiffUtil.ItemCallback<Marker>() {
-        override fun areItemsTheSame(oldItem: Marker, newItem: Marker) = oldItem == newItem
-        override fun areContentsTheSame(oldItem: Marker, newItem: Marker) = oldItem == newItem
+    companion object MarkersCallback : DiffUtil.ItemCallback<CustomMarker>() {
+        override fun areItemsTheSame(oldItem: CustomMarker, newItem: CustomMarker) = oldItem == newItem
+        override fun areContentsTheSame(oldItem: CustomMarker, newItem: CustomMarker) = oldItem == newItem
     }
 }

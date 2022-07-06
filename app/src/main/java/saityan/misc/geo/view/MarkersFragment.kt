@@ -6,15 +6,17 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.google.android.gms.maps.model.Marker
 import saityan.misc.geo.R
-import saityan.misc.geo.databinding.ActivityMapsBinding
 import saityan.misc.geo.databinding.FragmentMarkersBinding
+import saityan.misc.geo.model.CustomMarker
 
 class MarkersFragment (
-    private val markers: ArrayList<Marker>
+    private val markers: ArrayList<CustomMarker>
 ) : Fragment() {
-    private val adapter: MarkersAdapter by lazy { MarkersAdapter(requireActivity().menuInflater) }
+
+    private val adapter: MarkersAdapter by lazy {
+        MarkersAdapter(requireActivity().menuInflater)
+    }
     private var _binding: FragmentMarkersBinding? = null
     private val binding: FragmentMarkersBinding
         get() = _binding!!
@@ -37,8 +39,14 @@ class MarkersFragment (
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.action_delete_marker_from_context -> {
-                adapter.removeItem()
+            R.id.action_delete_marker_from_context -> adapter.removeItem()
+            R.id.action_edit_marker_from_context -> {
+                requireActivity()
+                .supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.map, MarkerFragment.newInstance(markers, adapter.itemPosition))
+                .addToBackStack("")
+                .commit()
             }
         }
         return super.onContextItemSelected(item)
@@ -50,7 +58,7 @@ class MarkersFragment (
     }
 
     companion object {
-        fun newInstance(markers: ArrayList<Marker>): MarkersFragment {
+        fun newInstance(markers: ArrayList<CustomMarker>): MarkersFragment {
             return MarkersFragment(markers)
         }
     }

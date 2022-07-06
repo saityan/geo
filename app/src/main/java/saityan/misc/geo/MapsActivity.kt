@@ -12,16 +12,16 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import saityan.misc.geo.contract.GoogleMapsContractImplementation
 import saityan.misc.geo.databinding.ActivityMapsBinding
+import saityan.misc.geo.model.CustomMarker
 import saityan.misc.geo.view.MarkersFragment
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private val mapsImplementation = GoogleMapsContractImplementation()
     private lateinit var mMap: GoogleMap
-    private val markers: ArrayList<Marker> = arrayListOf()
+    private val markers: ArrayList<CustomMarker> = arrayListOf()
     private lateinit var mLocationClient : FusedLocationProviderClient
     private lateinit var binding: ActivityMapsBinding
 
@@ -49,6 +49,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 .replace(binding.map.id, MarkersFragment.newInstance(markers))
                 .addToBackStack("")
                 .commit()
+            R.id.remove_markers_button -> {
+                for(i in (markers.size - 1) downTo 0) {
+                    markers[i].marker.remove()
+                    markers.removeAt(i)
+                }
+            }
         }
         return super.onOptionsItemSelected(item)
     }
@@ -71,6 +77,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         }
    }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        if (markers.size > 0) {
+            markers[markers.size - 1].marker.hideInfoWindow()
+            markers[markers.size - 1].marker.showInfoWindow()
+        }
+    }
+
     private fun GoogleMap.addMapMarker(it: LatLng) {
         this.addMarker(
             MarkerOptions()
@@ -81,7 +95,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 .position(it)
                 .title("Marker" + (markers.size + 1).toString())
         )?.let { marker ->
-            markers.add(marker)
+            markers.add(CustomMarker(marker))
             marker.showInfoWindow()
         }
     }

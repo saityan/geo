@@ -3,6 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/markers_button"
-        app:showAsAction="always"
+        app:showAsAction="ifRoom"
         android:title="@string/markers_title"/>
+    <item
+        android:id="@+id/remove_markers_button"
+        app:showAsAction="ifRoom"
+        android:title="@string/clear"/>
 </menu>
