@@ -55,7 +55,7 @@ class MarkersAdapter(
             v: View?,
             menuInfo: ContextMenu.ContextMenuInfo?
         ) {
-            menuInflater.inflate(R.menu.fragment_markers, menu)
+            menuInflater.inflate(R.menu.menu_fragment_markers, menu)
         }
     }
 
