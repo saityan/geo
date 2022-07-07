@@ -1,10 +1,7 @@
 package saityan.misc.geo.view
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import saityan.misc.geo.R
 import saityan.misc.geo.databinding.FragmentMarkersBinding
@@ -26,6 +23,7 @@ class MarkersFragment (
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        setHasOptionsMenu(true)
         _binding = FragmentMarkersBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -35,6 +33,22 @@ class MarkersFragment (
         binding.markersList.adapter = adapter
         adapter.submitList(markers)
         registerForContextMenu(binding.markersList)
+        toggleZeroMarkersText()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        menu.clear()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        toggleZeroMarkersText()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        toggleZeroMarkersText()
     }
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
@@ -55,6 +69,13 @@ class MarkersFragment (
     override fun onDestroy() {
         _binding = null
         super.onDestroy()
+    }
+
+    private fun toggleZeroMarkersText() {
+        if (markers.size == 0)
+            binding.noMarkers.visibility = View.VISIBLE
+        else
+            binding.noMarkers.visibility = View.GONE
     }
 
     companion object {

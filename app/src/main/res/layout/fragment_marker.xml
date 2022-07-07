@@ -4,15 +4,33 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/marker_name_textview"
+        android:text="@string/marker_title"
+        android:textSize="16sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        app:layout_constraintTop_toTopOf="parent"/>
+
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/marker_name_edit"
-        app:layout_constraintTop_toTopOf="parent"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/marker_name_textview"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/marker_description_textview"
+        android:text="@string/marker_annotation"
+        android:textSize="16sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        app:layout_constraintTop_toBottomOf="@id/marker_name_edit"/>
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/marker_description_edit"
-        app:layout_constraintTop_toBottomOf="@+id/marker_name_edit"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/marker_description_textview"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

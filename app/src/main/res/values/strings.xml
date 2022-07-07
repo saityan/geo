@@ -1,8 +1,11 @@
 <resources>
     <string name="app_name">geo</string>
-    <string name="title_activity_maps">MapsActivity</string>
+    <string name="title_activity_maps">Maps</string>
     <string name="markers_title">Markers</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
     <string name="clear">Clear</string>
+    <string name="marker_title">Marker title:</string>
+    <string name="marker_annotation">Marker annotation:</string>
+    <string name="no_markers_are_present">No markers on the map</string>
 </resources>

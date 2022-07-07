@@ -1,9 +1,7 @@
 package saityan.misc.geo.view
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import saityan.misc.geo.databinding.FragmentMarkerBinding
 import saityan.misc.geo.model.CustomMarker
@@ -22,6 +20,7 @@ class MarkerFragment(
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        setHasOptionsMenu(true)
         _binding = FragmentMarkerBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -30,6 +29,11 @@ class MarkerFragment(
         super.onViewCreated(view, savedInstanceState)
         binding.markerNameEdit.setText(markers[position].marker.title)
         binding.markerDescriptionEdit.setText(markers[position].description)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        menu.clear()
     }
 
     override fun onDestroy() {
