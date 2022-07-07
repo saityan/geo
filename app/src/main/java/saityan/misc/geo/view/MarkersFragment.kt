@@ -41,16 +41,6 @@ class MarkersFragment (
         menu.clear()
     }
 
-    override fun onStart() {
-        super.onStart()
-        toggleZeroMarkersText()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        toggleZeroMarkersText()
-    }
-
     override fun onContextItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_delete_marker_from_context -> adapter.removeItem()
